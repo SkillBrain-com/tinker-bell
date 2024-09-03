@@ -7,6 +7,8 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.util.List;
+
 public class Main {
 
     @Test
@@ -44,16 +46,60 @@ public class Main {
         driver.get("https://practicesoftwaretesting.com/checkout");
         Thread.sleep(2000);
 
-        WebElement produsCosCumparaturi = driver.findElement(By.xpath("/html/body/app-root/div/app-checkout/aw-wizard/div/aw-wizard-step[1]/app-cart/div/table/tbody/tr/td[1]/span"));
-        Assert.assertEquals(produsCosCumparaturi.getText(), "Thor Hammer ");
+        List<WebElement> listaNumeProduse = driver.findElements(By.xpath("//table/tbody/tr/td[1]"));
+        boolean produsInCos = false;
+        for (int i =0; i< listaNumeProduse.size() ; i++){
+            int randCurent = i +1;
+            if(listaNumeProduse.get(i).getText().equals("Thor Hammer ")){
+                produsInCos = true;
+                WebElement cantitateCos = driver.findElement(By.xpath("//tbody/tr[" + randCurent + "]/td[2]/input"));
+                Assert.assertEquals(cantitateCos.getAttribute("value"),"3");
+            }
 
-        WebElement cantitateCos = driver.findElement(By.xpath("/html/body/app-root/div/app-checkout/aw-wizard/div/aw-wizard-step[1]/app-cart/div/table/tbody/tr/td[2]/input"));
-        Assert.assertEquals(cantitateCos.getAttribute("value"),"3");
+        }
+        Assert.assertTrue(produsInCos);
 
-        // de adaugat de 3 ori in cos thor hammer
-        // de verificat ca este de 3 ori in cos la final
+        Thread.sleep(2000);
+        driver.get("https://practicesoftwaretesting.com/");
+
+        WebElement inputCautare = driver.findElement(By.xpath("//*[@id=\"search-query\"]"));
+        inputCautare.sendKeys("Wood");
+        inputCautare.sendKeys(Keys.ENTER);
+
+        Thread.sleep(2000);
+        WebElement produsSaw = driver.findElement(By.xpath("//html/body/app-root/div/app-overview/div[3]/div[2]/div[1]/a[1]/div[2]/h5"));
+        produsSaw.click();
+        Thread.sleep(2000);
+
+        String expectedTabTitle = "Wood Saw";
+        Assert.assertTrue(driver.getTitle().contains(expectedTabTitle));
+
+        WebElement plusSaw = driver.findElement(By.xpath("//*[@id=\"btn-increase-quantity\"]/fa-icon"));
+        int piece = 3;
+        for (int i = 1; i<piece; i++){
+            plusSaw.click();
+        }
+
+        WebElement addToCart = driver.findElement(By.id("btn-add-to-cart"));
+        addToCart.click();
+        Thread.sleep(2000);
+
+        driver.get("https://practicesoftwaretesting.com/checkout");
+        Thread.sleep(2000);
+        listaNumeProduse = driver.findElements(By.xpath("//table/tbody/tr/td[1]"));
+        produsInCos = false;
+        for (int i =0; i< listaNumeProduse.size() ; i++){
+            int randCurent = i +1;
+            if(listaNumeProduse.get(i).getText().equals("Wood Saw ")){
+                produsInCos = true;
+                WebElement cantitateCos = driver.findElement(By.xpath("//tbody/tr[" + randCurent + "]/td[2]/input"));
+                Assert.assertEquals(cantitateCos.getAttribute("value"), String.valueOf(piece));
+            }
+
+        }
+        Assert.assertTrue(produsInCos);
 
 
-        // de cautat si adaugat 'Wood Saw' in cosul de cumparaturi si facute aceleasi verificari ca la 'Thor Hammer'
+        driver.quit();
     }
 }
