@@ -152,13 +152,35 @@ public class Main {
 
     @Test
     public void testAsteptarePopUp(){
-        // Deschide site-ul
-        // adaugam thor hammer in cos
-        // asteptam sa apara notificarea cu verde ca produs a fost adaugat in cos
-        // asteptam sa dispara notificarea cu verde
-        // dam click pe cos
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--incognito");
+        options.addArguments("--disable-search-engine-choice-screen");
+        options.addArguments("--window-size=1280,1024");
 
-        // nu folosim Thread.sleep nicaeri!
+        WebDriver driver = new ChromeDriver(options);
+        WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(10));
+
+        driver.get("https://practicesoftwaretesting.com/");
+
+        WebElement inputSearch = driver.findElement(By.xpath("//*[@id=\"search-query\"]"));
+        inputSearch.sendKeys("thor");
+        inputSearch.sendKeys(Keys.ENTER);
+        WebElement thorHammer = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//img[@alt=\"Thor Hammer\"]")));
+        thorHammer.click();
+
+        WebElement addToCart = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("btn-add-to-cart")));
+        addToCart.click();
+
+
+        WebElement notificareAddCart = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@role=\"alert\"]")));
+
+        Assert.assertEquals(notificareAddCart.getText(), "Product added to shopping cart.");
+        wait.until(ExpectedConditions.invisibilityOf(notificareAddCart));
+
+        WebElement cart = driver.findElement(By.xpath("//*[@id=\"lblCartCount\"]"));
+        cart.click();
+
+
     }
 
 
