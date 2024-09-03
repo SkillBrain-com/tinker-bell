@@ -7,8 +7,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import java.time.Duration;
 import java.util.List;
@@ -16,16 +15,30 @@ import java.util.Objects;
 
 public class Main {
 
-    @Test
-    public void testAdaugareProduseIncos() throws InterruptedException {
+    private WebDriver driver;
 
+
+    @BeforeMethod
+    public void setUp(){
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--incognito");
         options.addArguments("--disable-search-engine-choice-screen");
         options.addArguments("--window-size=1280,1024");
 
-        WebDriver driver = new ChromeDriver(options);
+        driver = new ChromeDriver(options);
         driver.get("https://practicesoftwaretesting.com/");
+    }
+
+    @AfterMethod
+    public void tearDown(){
+        driver.quit();
+    }
+
+
+
+
+    @Test
+    public void testAdaugareProduseIncos() throws InterruptedException {
 
         WebElement inputSearch = driver.findElement(By.xpath("//*[@id=\"search-query\"]"));
         inputSearch.sendKeys("thor");
@@ -104,8 +117,6 @@ public class Main {
         }
         Assert.assertTrue(produsInCos);
 
-
-        driver.quit();
     }
 
 
@@ -121,13 +132,6 @@ public class Main {
     @Test(dataProvider =  "credentiale")
     public void testLogin(String email, String password, String numeComplet) {
 
-
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--incognito");
-        options.addArguments("--disable-search-engine-choice-screen");
-        options.addArguments("--window-size=1280,1024");
-
-        WebDriver driver = new ChromeDriver(options);
         WebDriverWait waitScurt = new WebDriverWait(driver, Duration.ofSeconds(5));
         WebDriverWait waitMediu = new WebDriverWait(driver, Duration.ofSeconds(15));
         WebDriverWait waitLung = new WebDriverWait(driver, Duration.ofSeconds(60));
@@ -147,20 +151,12 @@ public class Main {
         WebElement accountName =  waitMediu.until(ExpectedConditions.presenceOfElementLocated(By.id("menu")));
         Assert.assertEquals(accountName.getText() , numeComplet);
 
-        driver.quit();
     }
 
     @Test
     public void testAsteptarePopUp(){
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--incognito");
-        options.addArguments("--disable-search-engine-choice-screen");
-        options.addArguments("--window-size=1280,1024");
 
-        WebDriver driver = new ChromeDriver(options);
         WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(10));
-
-        driver.get("https://practicesoftwaretesting.com/");
 
         WebElement inputSearch = driver.findElement(By.xpath("//*[@id=\"search-query\"]"));
         inputSearch.sendKeys("thor");
