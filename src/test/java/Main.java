@@ -150,4 +150,16 @@ public class Main {
         driver.quit();
     }
 
+    @Test
+    public void testAsteptarePopUp(){
+        // Deschide site-ul
+        // adaugam thor hammer in cos
+        // asteptam sa apara notificarea cu verde ca produs a fost adaugat in cos
+        // asteptam sa dispara notificarea cu verde
+        // dam click pe cos
+
+        // nu folosim Thread.sleep nicaeri!
+    }
+
+
 }
