@@ -4,10 +4,13 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.Objects;
 
@@ -116,7 +119,8 @@ public class Main {
 
 
     @Test(dataProvider =  "credentiale")
-    public void testLogin(String email, String password, String numeComplet) throws InterruptedException {
+    public void testLogin(String email, String password, String numeComplet) {
+
 
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--incognito");
@@ -124,22 +128,23 @@ public class Main {
         options.addArguments("--window-size=1280,1024");
 
         WebDriver driver = new ChromeDriver(options);
+        WebDriverWait waitScurt = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebDriverWait waitMediu = new WebDriverWait(driver, Duration.ofSeconds(15));
+        WebDriverWait waitLung = new WebDriverWait(driver, Duration.ofSeconds(60));
+
         driver.get("https://practicesoftwaretesting.com/");
         WebElement signInLink = driver.findElement(By.xpath("/html/body/app-root/app-header/nav/div/div/ul/li[4]/a"));
         signInLink.click();
-        Thread.sleep(3000);
         WebElement emailField = driver.findElement(By.id("email"));
         emailField.sendKeys(email);
         WebElement passwordField  = driver.findElement(By.xpath("//*[@id=\"password\"]/div/input"));
-        Thread.sleep(3000);
         passwordField.click();
-        Thread.sleep(3000);
         passwordField.sendKeys(password);
         WebElement signInButton = driver.findElement(By.xpath("/html/body/app-root/div/app-login/div/div/div/form/div[3]/input"));
         signInButton.click();
 
-        Thread.sleep(5000);
-        WebElement accountName = driver.findElement(By.id("menu"));
+
+        WebElement accountName =  waitMediu.until(ExpectedConditions.presenceOfElementLocated(By.id("menu")));
         Assert.assertEquals(accountName.getText() , numeComplet);
 
         driver.quit();
