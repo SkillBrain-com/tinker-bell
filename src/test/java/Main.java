@@ -5,9 +5,11 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Main {
 
@@ -102,4 +104,45 @@ public class Main {
 
         driver.quit();
     }
+
+
+    @DataProvider(name = "credentiale")
+    public Object[][] credentialeProvider(){
+        return new Object[][]{
+                {"customer@practicesoftwaretesting.com", "welcome01", "Jane Doe"},
+                {"customer2@practicesoftwaretesting.com","welcome01", "Jack Howe"}
+        };
+    }
+
+
+    @Test(dataProvider =  "credentiale")
+    public void testLogin(String email, String password, String numeComplet) throws InterruptedException {
+
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--incognito");
+        options.addArguments("--disable-search-engine-choice-screen");
+        options.addArguments("--window-size=1280,1024");
+
+        WebDriver driver = new ChromeDriver(options);
+        driver.get("https://practicesoftwaretesting.com/");
+        WebElement signInLink = driver.findElement(By.xpath("/html/body/app-root/app-header/nav/div/div/ul/li[4]/a"));
+        signInLink.click();
+        Thread.sleep(3000);
+        WebElement emailField = driver.findElement(By.id("email"));
+        emailField.sendKeys(email);
+        WebElement passwordField  = driver.findElement(By.xpath("//*[@id=\"password\"]/div/input"));
+        Thread.sleep(3000);
+        passwordField.click();
+        Thread.sleep(3000);
+        passwordField.sendKeys(password);
+        WebElement signInButton = driver.findElement(By.xpath("/html/body/app-root/div/app-login/div/div/div/form/div[3]/input"));
+        signInButton.click();
+
+        Thread.sleep(5000);
+        WebElement accountName = driver.findElement(By.id("menu"));
+        Assert.assertEquals(accountName.getText() , numeComplet);
+
+        driver.quit();
+    }
+
 }
