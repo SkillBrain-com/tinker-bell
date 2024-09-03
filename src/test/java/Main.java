@@ -12,7 +12,7 @@ import java.util.List;
 public class Main {
 
     @Test
-    public void testCautare() throws InterruptedException {
+    public void testAdaugareProduseIncos() throws InterruptedException {
 
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--incognito");
