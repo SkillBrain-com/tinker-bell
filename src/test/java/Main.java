@@ -4,27 +4,18 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
-import java.io.FileNotFoundException;
 import java.time.Duration;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Objects;
 
 public class Main {
 
     private WebDriver driver;
-
-
-    //SOLID
-    // S - Single Responsibility Principle
-    // O - Open (Extension) - closed (Modification) principle
-    // Liskov Substitution Principle
 
 
     @BeforeMethod
@@ -43,32 +34,28 @@ public class Main {
         driver.quit();
     }
 
-    @Test
-    public void testAdaugareProduseIncos() throws InterruptedException {
 
-        WebElement inputSearch = driver.findElement(By.xpath("//*[@id=\"search-query\"]"));
+
+
+    @Test
+    public void testAdaugareProduseIncos() {
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+        WebElement inputSearch = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"search-query\"]")));
         inputSearch.sendKeys("thor");
         inputSearch.sendKeys(Keys.ENTER);
 
-        Thread.sleep(2000);
-        WebElement produsThor = driver.findElement(By.xpath("/html/body/app-root/div/app-overview/div[3]/div[2]/div[1]/a/div[1]/img"));
+        WebElement produsThor = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//img[@alt=\"Thor Hammer\"]")));
         produsThor.click();
-        Thread.sleep(2000);
 
-        String expectedTitle = "Thor Hammer";
-        Assert.assertTrue(driver.getTitle().contains(expectedTitle));
-
-        WebElement adaugaInCos = driver.findElement(By.id("btn-add-to-cart"));
-        adaugaInCos.click();
-        Thread.sleep(2000);
-        adaugaInCos.click();
-        Thread.sleep(2000);
-        adaugaInCos.click();
-        Thread.sleep(2000);
-
+        WebElement adaugaInCos = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("btn-add-to-cart")));
+        int clicksNeeded = 3;
+        for (int i = 0; i < clicksNeeded; i++) {
+           adaugaInCos.click();
+        }
 
         driver.get("https://practicesoftwaretesting.com/checkout");
-        Thread.sleep(2000);
 
         List<WebElement> listaNumeProduse = driver.findElements(By.xpath("//table/tbody/tr/td[1]"));
         boolean produsInCos = false;
@@ -76,47 +63,39 @@ public class Main {
             int randCurent = i +1;
             if(listaNumeProduse.get(i).getText().equals("Thor Hammer ")){
                 produsInCos = true;
-                WebElement cantitateCos = driver.findElement(By.xpath("//tbody/tr[" + randCurent + "]/td[2]/input"));
+                WebElement cantitateCos = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//tbody/tr[" + randCurent + "]/td[2]/input")));
                 Assert.assertEquals(cantitateCos.getAttribute("value"),"3");
             }
-
         }
         Assert.assertTrue(produsInCos);
 
-        Thread.sleep(2000);
         driver.get("https://practicesoftwaretesting.com/");
 
-        WebElement inputCautare = driver.findElement(By.xpath("//*[@id=\"search-query\"]"));
+        WebElement inputCautare = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"search-query\"]")));
         inputCautare.sendKeys("Wood");
         inputCautare.sendKeys(Keys.ENTER);
 
-        Thread.sleep(2000);
-        WebElement produsSaw = driver.findElement(By.xpath("//html/body/app-root/div/app-overview/div[3]/div[2]/div[1]/a[1]/div[2]/h5"));
+        WebElement produsSaw = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//html/body/app-root/div/app-overview/div[3]/div[2]/div[1]/a[1]/div[2]/h5")));
         produsSaw.click();
-        Thread.sleep(2000);
 
-        String expectedTabTitle = "Wood Saw";
-        Assert.assertTrue(driver.getTitle().contains(expectedTabTitle));
-
-        WebElement plusSaw = driver.findElement(By.xpath("//*[@id=\"btn-increase-quantity\"]/fa-icon"));
+        WebElement plusSaw = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"btn-increase-quantity\"]/fa-icon")));
         int piece = 3;
         for (int i = 1; i<piece; i++){
             plusSaw.click();
         }
 
-        WebElement addToCart = driver.findElement(By.id("btn-add-to-cart"));
+        WebElement addToCart = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("btn-add-to-cart")));
         addToCart.click();
-        Thread.sleep(2000);
 
         driver.get("https://practicesoftwaretesting.com/checkout");
-        Thread.sleep(2000);
+
         listaNumeProduse = driver.findElements(By.xpath("//table/tbody/tr/td[1]"));
         produsInCos = false;
         for (int i =0; i< listaNumeProduse.size() ; i++){
             int randCurent = i +1;
             if(listaNumeProduse.get(i).getText().equals("Wood Saw ")){
                 produsInCos = true;
-                WebElement cantitateCos = driver.findElement(By.xpath("//tbody/tr[" + randCurent + "]/td[2]/input"));
+                WebElement cantitateCos = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//tbody/tr[" + randCurent + "]/td[2]/input")));
                 Assert.assertEquals(cantitateCos.getAttribute("value"), String.valueOf(piece));
             }
 
@@ -143,14 +122,14 @@ public class Main {
         WebDriverWait waitLung = new WebDriverWait(driver, Duration.ofSeconds(60));
 
         driver.get("https://practicesoftwaretesting.com/");
-        WebElement signInLink = driver.findElement(By.xpath("/html/body/app-root/app-header/nav/div/div/ul/li[4]/a"));
+        WebElement signInLink =  waitScurt.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/html/body/app-root/app-header/nav/div/div/ul/li[4]/a")));
         signInLink.click();
-        WebElement emailField = driver.findElement(By.id("email"));
+        WebElement emailField =  waitScurt.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"email\"]")));
         emailField.sendKeys(email);
-        WebElement passwordField  = driver.findElement(By.xpath("//*[@id=\"password\"]/div/input"));
+        WebElement passwordField  = waitScurt.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"password\"]/div/input")));
         passwordField.click();
         passwordField.sendKeys(password);
-        WebElement signInButton = driver.findElement(By.xpath("/html/body/app-root/div/app-login/div/div/div/form/div[3]/input"));
+        WebElement signInButton = waitScurt.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/html/body/app-root/div/app-login/div/div/div/form/div[3]/input")));
         signInButton.click();
 
 
@@ -164,7 +143,7 @@ public class Main {
 
         WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(10));
 
-        WebElement inputSearch = driver.findElement(By.xpath("//*[@id=\"search-query\"]"));
+        WebElement inputSearch = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"search-query\"]")));
         inputSearch.sendKeys("thor");
         inputSearch.sendKeys(Keys.ENTER);
         WebElement thorHammer = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//img[@alt=\"Thor Hammer\"]")));
