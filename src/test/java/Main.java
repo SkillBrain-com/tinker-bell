@@ -1,16 +1,15 @@
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 
 public class Main {
@@ -65,6 +64,7 @@ public class Main {
                 produsInCos = true;
                 WebElement cantitateCos = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//tbody/tr[" + randCurent + "]/td[2]/input")));
                 Assert.assertEquals(cantitateCos.getAttribute("value"),"3");
+                break;
             }
         }
         Assert.assertTrue(produsInCos);
@@ -76,6 +76,13 @@ public class Main {
         inputCautare.sendKeys(Keys.ENTER);
 
         WebElement produsSaw = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//html/body/app-root/div/app-overview/div[3]/div[2]/div[1]/a[1]/div[2]/h5")));
+        FluentWait<WebDriver> fluentWait = new FluentWait<>(driver);
+
+        fluentWait.withTimeout(Duration.ofSeconds(10))
+                .pollingEvery(Duration.ofMillis(250))
+                .ignoring(NoSuchElementException.class)
+                .ignoring(StaleElementReferenceException.class);
+        produsSaw = fluentWait.until(webDriver -> webDriver.findElement(By.xpath("//html/body/app-root/div/app-overview/div[3]/div[2]/div[1]/a[1]/div[2]/h5")));
         produsSaw.click();
 
         WebElement plusSaw = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"btn-increase-quantity\"]/fa-icon")));
@@ -91,12 +98,14 @@ public class Main {
 
         listaNumeProduse = driver.findElements(By.xpath("//table/tbody/tr/td[1]"));
         produsInCos = false;
+        driver.findElement(By.xpath("//span[.='Combination Pliers '] //parent::td //parent::tr //td[2] //child::input")).getText();
         for (int i =0; i< listaNumeProduse.size() ; i++){
             int randCurent = i +1;
             if(listaNumeProduse.get(i).getText().equals("Wood Saw ")){
                 produsInCos = true;
                 WebElement cantitateCos = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//tbody/tr[" + randCurent + "]/td[2]/input")));
                 Assert.assertEquals(cantitateCos.getAttribute("value"), String.valueOf(piece));
+                break;
             }
 
         }
