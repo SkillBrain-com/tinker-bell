@@ -1,3 +1,5 @@
+package Laur;
+
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -10,7 +12,6 @@ import org.testng.annotations.*;
 import java.time.Duration;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Objects;
 
 public class Main {
 
