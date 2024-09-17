@@ -45,40 +45,6 @@ import org.openqa.selenium.support.PageFactory;
             return confirmButton;
         }
 
-
-        public static class Options {
-
-            private ChromeOptions options;
-
-            public Options() {
-                options = new ChromeOptions();
-                options.addArguments("--incognito");
-                options.addArguments("--disable-search-engine-choice-screen");
-                options.addArguments("--start-maximized");
-            }
-
-            public ChromeOptions getOptions() {
-                return options;
-            }
-        }
-
-        public static class Driver {
-            private ChromeDriver driver;
-
-            public Driver(ChromeOptions options) {
-                driver = new ChromeDriver(options);
-                driver.get("https://demoqa.com/alerts");
-            }
-
-            public ChromeDriver getDriver() {
-                return driver;
-            }
-
-            public void quitDriver() {
-
-                driver.quit();
-            }
-        }
     }
 
 

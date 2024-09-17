@@ -1,6 +1,8 @@
 package ErikH;
 
 
+import ErikH.config.Driver;
+import ErikH.config.Options;
 import ErikH.pageObject.AlertPageObject;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
@@ -19,16 +21,16 @@ import java.time.Duration;
 
 public class ActionTest {
 
-    private AlertPageObject.Options options;
-    private AlertPageObject.Driver driver;
+    private Options options;
+    private Driver driver;
     private AlertPageObject alertPageObject;
     private Alert alertWindow;
 
 
     @BeforeTest
     public void initializeDriver() {
-        options = new AlertPageObject.Options();
-        driver = new AlertPageObject.Driver(options.getOptions());
+        options = new Options();
+        driver = new Driver(options.getOptions());
         alertPageObject = new AlertPageObject(driver.getDriver());
     }
 
