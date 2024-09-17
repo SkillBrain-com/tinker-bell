@@ -8,7 +8,6 @@ import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.*;
-
 import java.time.Duration;
 import java.util.List;
 import java.util.NoSuchElementException;
