@@ -4,16 +4,15 @@ import org.openqa.selenium.chrome.ChromeOptions;
 
 public  class Options {
 
-    private static ChromeOptions options;
+    public static ChromeOptions getOptions(){
 
-    public Options() {
-        options = new ChromeOptions();
+        ChromeOptions options = new ChromeOptions();
         options.addArguments("--incognito");
         options.addArguments("--disable-search-engine-choice-screen");
         options.addArguments("--start-maximized");
-    }
-
-    public ChromeOptions getOptions() {
+        options.addArguments("--disable-notifications");
+        options.addArguments("--disable-popup-blocking");
         return options;
+
     }
 }

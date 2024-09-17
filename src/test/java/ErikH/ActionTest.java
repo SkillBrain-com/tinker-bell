@@ -21,7 +21,7 @@ import java.time.Duration;
 
 public class ActionTest {
 
-    private Options options;
+    private ChromeOptions options;
     private Driver driver;
     private AlertPageObject alertPageObject;
     private Alert alertWindow;
@@ -29,10 +29,12 @@ public class ActionTest {
 
     @BeforeTest
     public void initializeDriver() {
-        options = new Options();
-        driver = new Driver(options.getOptions());
+        options = Options.getOptions();
+        driver = new Driver(options);
         alertPageObject = new AlertPageObject(driver.getDriver());
     }
+
+
 
     @AfterTest
     public void closeDriver() {
@@ -42,6 +44,7 @@ public class ActionTest {
 
     @Test
     public void acceptAlertTest() {
+        driver.getAlertPage();
         alertPageObject.getAlertButton().click();
         alertWindow = driver.getDriver().switchTo().alert();
         alertWindow.accept();

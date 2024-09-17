@@ -15,6 +15,8 @@ import org.openqa.selenium.support.PageFactory;
             PageFactory.initElements(driver, this);
         }
 
+        public static final String ALERT_PAGE = "https://demoqa.com/alerts";
+
 
         @FindBy(id = "alertButton")
         private WebElement alertButton;
