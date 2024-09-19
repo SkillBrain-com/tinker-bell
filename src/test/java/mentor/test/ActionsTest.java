@@ -1,4 +1,4 @@
-package mentor;
+package mentor.test;
 
 
 import mentor.pageObject.AlertPageObject;

@@ -7,7 +7,7 @@ import org.openqa.selenium.support.PageFactory;
 
 public class AlertPageObject {
 
-//    TODO - define the other two selectors
+//TODO - please extend BasePage and use its constructor to initialize the object (hint Check BrowserWindowPageObject)
 
     public static final String ALERT_PAGE_URL = "https://demoqa.com/alerts";
 
