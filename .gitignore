@@ -33,6 +33,10 @@ build/
 !**/src/test/**/build/
 .idea/
 
+
+# Print screens and logs
+evidence/
+
 ### VS Code ###
 .vscode/
 

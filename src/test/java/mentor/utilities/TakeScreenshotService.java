@@ -17,7 +17,7 @@ public class TakeScreenshotService {
 //                                      CAST (TRANSFORMATION)
         TakesScreenshot screenshot = (TakesScreenshot) driver;
         File source = screenshot.getScreenshotAs(OutputType.FILE);
-        destinationFile = System.getProperty("user.dir")  +"/src/test/java/mentor/testResults/Screenshot-" + LocalDateTime.now() + ".png";
+        destinationFile = System.getProperty("user.dir")  +"/evidence/Screenshot-" + LocalDateTime.now() + ".png";
         try {
             FileUtils.copyFile(source, new File(destinationFile));
         } catch (IOException e) {
