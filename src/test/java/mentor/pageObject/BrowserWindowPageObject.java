@@ -3,9 +3,12 @@ package mentor.pageObject;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class BrowserWindowPageObject extends BasePage {
 
+    public static final Logger LOGGER = LoggerFactory.getLogger(BrowserWindowPageObject.class);
 
     public static final String BROWSER_WINDOW_URL = "https://demoqa.com/browser-windows";
 
@@ -33,6 +36,7 @@ public class BrowserWindowPageObject extends BasePage {
     private WebElement messageWindowButton;
 
     public void goToBrowserWindowPage() {
+        LOGGER.info("Hitting the URL: " + BROWSER_WINDOW_URL + ".");
         driver.get(BROWSER_WINDOW_URL);
     }
 
