@@ -33,6 +33,7 @@ build/
 !**/src/test/**/build/
 .idea/
 
+test-output/
 
 # Print screens and logs
 evidence/

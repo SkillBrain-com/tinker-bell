@@ -5,6 +5,12 @@ import mentor.utilities.TakeScreenshotService;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.firefox.GeckoDriverInfo;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
@@ -12,6 +18,8 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
+import java.time.Duration;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -34,6 +42,7 @@ public class BrowserWindowTest {
         options.addArguments("--disable-notifications");
         options.addArguments("--disable-popup-blocking");
         driver = new ChromeDriver(options);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         browserWindowPageObject = new BrowserWindowPageObject(driver);
         LOGGER.info("Driver has been initialized.");
     }
@@ -60,6 +69,9 @@ public class BrowserWindowTest {
 //        TODO - make this switch to function reusable across all page objects (hint BasePage)
         LOGGER.info("Switching to child window");
         driver.switchTo().window(childWindow);
+        browserWindowPageObject.setWebDriverWait();
+        WebDriverWait webDriverWait = browserWindowPageObject.getWebDriverWait();
+        webDriverWait.until(ExpectedConditions.visibilityOf(browserWindowPageObject.getSampleHeading()));
         Assert.assertEquals(browserWindowPageObject.getSampleHeading().getText(), "This is a sample page");
         TakeScreenshotService.takeScreenshot(driver);
         Assert.assertEquals(driver.getCurrentUrl(), EXPECTED_URL_NEW_TAB);

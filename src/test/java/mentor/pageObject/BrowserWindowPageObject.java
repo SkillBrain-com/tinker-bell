@@ -8,21 +8,6 @@ import org.slf4j.LoggerFactory;
 
 public class BrowserWindowPageObject extends BasePage {
 
-    public static final Logger LOGGER = LoggerFactory.getLogger(BrowserWindowPageObject.class);
-
-    public static final String BROWSER_WINDOW_URL = "https://demoqa.com/browser-windows";
-
-    public BrowserWindowPageObject(WebDriver driver) {
-        super(driver);
-    }
-
-    @FindBy(xpath = "(//img)[2]")
-    private WebElement homePageImage;
-
-    public WebElement getHomePageImage() {
-        return homePageImage;
-    }
-
     @FindBy(id = "sampleHeading")
     private WebElement sampleHeading;
 
@@ -35,11 +20,27 @@ public class BrowserWindowPageObject extends BasePage {
     @FindBy(id = "messageWindowButton")
     private WebElement messageWindowButton;
 
+    @FindBy(xpath = "(//img)[2]")
+    private WebElement homePageImage;
+
+    public static final Logger LOGGER = LoggerFactory.getLogger(BrowserWindowPageObject.class);
+
+    public static final String BROWSER_WINDOW_URL = "https://demoqa.com/browser-windows";
+
+
+
+    public BrowserWindowPageObject(WebDriver driver) {
+        super(driver);
+    }
+
+    public WebElement getHomePageImage() {
+        return homePageImage;
+    }
+
     public void goToBrowserWindowPage() {
         LOGGER.info("Hitting the URL: " + BROWSER_WINDOW_URL + ".");
         driver.get(BROWSER_WINDOW_URL);
     }
-
 
     public WebElement getTabButton() {
         return tabButton;
