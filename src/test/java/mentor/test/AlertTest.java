@@ -1,6 +1,7 @@
 package mentor.test;
 
 
+import mentor.factory.WebDriverFactory;
 import mentor.pageObject.AlertPageObject;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
@@ -26,7 +27,6 @@ public class AlertTest {
 //    TODO - click on last button and assert the text you entered in the alert window is the same as the message next to the button
     public static final Logger LOGGER = LoggerFactory.getLogger(AlertTest.class);
 
-    private ChromeOptions options;
     private WebDriver driver;
     private AlertPageObject alertPageObject;
     private static final String EXPECTED_URL_NEW_TAB = "https://demoqa.com/sample";
@@ -35,13 +35,8 @@ public class AlertTest {
     @BeforeTest
     public void initializeTest() {
         LOGGER.info("Initializing driver...");
-        options = new ChromeOptions();
-        options.addArguments("--incognito");
-        options.addArguments("--disable-search-engine-choice-screen");
-        options.addArguments("--start-maximized");
-        options.addArguments("--disable-notifications");
-        options.addArguments("--disable-popup-blocking");
-        driver = new ChromeDriver(options);
+        WebDriverFactory factory = new WebDriverFactory();
+        driver = factory.getDriver();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         alertPageObject = new AlertPageObject(driver);
         LOGGER.info("Driver has been initialized.");
@@ -62,7 +57,7 @@ public class AlertTest {
     @Test
     public void acceptAlertTest() {
 //        TODO - create method to land on alerts page (if not already done)
-        driver.get("https://demoqa.com/alerts");
+        alertPageObject.goToAlertPage();
         Assert.assertEquals(driver.getCurrentUrl(), "https://demoqa.com/alerts");
         alertPageObject.getAlertButton().click();
         alertWindow = driver.switchTo().alert();
