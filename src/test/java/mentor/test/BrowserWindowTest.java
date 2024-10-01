@@ -34,6 +34,7 @@ public class BrowserWindowTest {
 
     @BeforeTest
     public void initializeDriver() {
+//        TODO - please please use the WebDriverFactory to create the driver
         LOGGER.info("Initializing driver...");
         options = new ChromeOptions();
         options.addArguments("--incognito");
