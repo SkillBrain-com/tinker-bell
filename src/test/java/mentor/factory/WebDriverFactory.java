@@ -1,5 +1,6 @@
 package mentor.factory;
 
+import mentor.enums.WebDrivers;
 import mentor.utilities.ChromeDriverOptions;
 import mentor.utilities.FirefoxDriverOptions;
 import mentor.utilities.PropertyUtils;
@@ -10,6 +11,8 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 
 import java.util.Properties;
 
+import static mentor.enums.WebDrivers.CHROME;
+
 public class WebDriverFactory implements DriverManager {
 
 
@@ -17,12 +20,12 @@ public class WebDriverFactory implements DriverManager {
     public WebDriver getDriver() {
         Properties properties = PropertyUtils.propertiesLoader();
         String browser = properties.getProperty("browser");
-        switch (browser) {
-            case "chrome":
+        switch (WebDrivers.valueOf(browser.toUpperCase())) {
+            case CHROME:
                 return new ChromeDriver(ChromeDriverOptions.getChromeOptions());
-            case "firefox":
+            case FIREFOX:
                 return new FirefoxDriver(FirefoxDriverOptions.getFirefoxOptions());
-            case "edge":
+            case EDGE:
                 // TODO add EdgeDriverOptions class
                 return new EdgeDriver();
             default:
