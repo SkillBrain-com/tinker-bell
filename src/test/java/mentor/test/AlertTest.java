@@ -1,14 +1,12 @@
 package mentor.test;
 
 
-import mentor.factory.WebDriverFactory;
+import mentor.factory.RemoteDriverFactory;
 import mentor.pageObject.AlertPageObject;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +14,6 @@ import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
-import org.testng.asserts.SoftAssert;
 
 import java.time.Duration;
 
@@ -35,8 +32,9 @@ public class AlertTest {
     @BeforeTest
     public void initializeTest() {
         LOGGER.info("Initializing driver...");
-        WebDriverFactory factory = new WebDriverFactory();
-        driver = factory.getDriver();
+//        WebDriverFactory factory = new WebDriverFactory();
+//        driver = factory.getDriver();
+        driver = new RemoteDriverFactory().getRemoteDriver();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         alertPageObject = new AlertPageObject(driver);
         LOGGER.info("Driver has been initialized.");
@@ -54,7 +52,7 @@ public class AlertTest {
     // 3. Polimorfism
     // 4. Abstractizare
 
-    @Test
+    @Test(testName = "acceptAlert")
     public void acceptAlertTest() {
 //        TODO - create method to land on alerts page (if not already done)
         alertPageObject.goToAlertPage();

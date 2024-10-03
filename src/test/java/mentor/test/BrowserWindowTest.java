@@ -1,5 +1,6 @@
 package mentor.test;
 
+import mentor.factory.RemoteDriverFactory;
 import mentor.pageObject.BrowserWindowPageObject;
 import mentor.utilities.TakeScreenshotService;
 import org.openqa.selenium.WebDriver;
@@ -9,6 +10,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.GeckoDriverInfo;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
@@ -36,13 +38,7 @@ public class BrowserWindowTest {
     public void initializeDriver() {
 //        TODO - please please use the WebDriverFactory to create the driver
         LOGGER.info("Initializing driver...");
-        options = new ChromeOptions();
-        options.addArguments("--incognito");
-        options.addArguments("--disable-search-engine-choice-screen");
-        options.addArguments("--start-maximized");
-        options.addArguments("--disable-notifications");
-        options.addArguments("--disable-popup-blocking");
-        driver = new ChromeDriver(options);
+        driver = new RemoteDriverFactory().getRemoteDriver();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         browserWindowPageObject = new BrowserWindowPageObject(driver);
         LOGGER.info("Driver has been initialized.");
