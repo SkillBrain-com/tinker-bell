@@ -34,6 +34,4 @@ public class CheckBoxPageObject extends BasePage {
         return reactCheckbox;
     }
 
-//    TODO - Assert React is selected !!
-        // use .isSelected, gasit input in cod pentru asta
 }

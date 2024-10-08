@@ -6,3 +6,6 @@ public interface DriverManager {
 
     WebDriver getDriver();
 }
+
+//    TODO Make all tests and pages use DriverManager
+

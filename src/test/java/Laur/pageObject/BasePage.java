@@ -39,7 +39,8 @@ public abstract class BasePage {
         String parentWindow = iterator.next();
         driver.switchTo().window(parentWindow);
     }
-
+// TODO make from these 2 methods a single method using string input & switch case
+//  & default Throw new error
     public void switchChildWindow() {
         Set<String> windowHandles = driver.getWindowHandles();
         if((windowHandles.size() > 1)) {

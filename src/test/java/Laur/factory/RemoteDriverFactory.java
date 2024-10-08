@@ -16,6 +16,7 @@ public class RemoteDriverFactory implements RemoteManager {
         // localhost -127.0.0.1
         URL remoteURL = null;
         try {
+            // TODO get remote URL from testConfig
             remoteURL = new URL("http://192.168.100.90:4444");
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
