@@ -3,14 +3,13 @@ package Laur.pageObject;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 
-public class AlertPageObject {
+public class AlertPageObject extends BasePage{
 
     public static final String ALERT_PAGE_URL = "https://demoqa.com/alerts";
 
     public AlertPageObject(WebDriver driver) {
-        PageFactory.initElements(driver, this);
+        super(driver);
     }
 
     @FindBy(id = "alertButton")
