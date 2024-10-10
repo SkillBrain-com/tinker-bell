@@ -1,7 +1,10 @@
-package mentor.test;
+package Agnes.Test;
 
-import mentor.factory.RemoteDriverFactory;
-import mentor.pageObject.BrowserWindowPageObject;
+import Agnes.factory.RemoteDriverFactory;
+import Agnes.factory.WebDriverFactory;
+import Agnes.pageObject.BrowserWindowsObject;
+import Agnes.utilities.PropertyUtils;
+import Agnes.utilities.TakeScreenshotService;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -15,32 +18,43 @@ import org.testng.annotations.Test;
 
 import java.time.Duration;
 import java.util.Iterator;
+import java.util.Properties;
 import java.util.Set;
 
-import static mentor.utilities.TakeScreenshotService.takeScreenshot;
-import static org.testng.Assert.assertTrue;
+import static Agnes.utilities.TakeScreenshotService.takeScreenshot;
+import static org.testng.Assert.assertEquals;
 
 public class BrowserWindowTest {
-
-    public static final Logger LOGGER = LoggerFactory.getLogger(BrowserWindowTest.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(Agnes.Test.BrowserWindowTest.class);
 
     private ChromeOptions options;
     private WebDriver driver;
-    private BrowserWindowPageObject browserWindowPageObject;
+    private BrowserWindowsObject browserWindowPageObject;
     private static final String EXPECTED_URL_NEW_TAB = "https://demoqa.com/sample";
+
+//    private ChromeOptions options;
+//    private WebDriver driver;
+//    private BrowserWindowsObject browserWindowObject;
+
 
     @BeforeTest
     public void initializeDriver() {
 //        TODO - please please use the WebDriverFactory to create the driver
         LOGGER.info("Initializing driver...");
-        driver = new RemoteDriverFactory().getRemoteDriver();
+        Properties properties = PropertyUtils.propertiesLoader();
+        if (properties.getProperty("browser").contains("remote")){
+            driver=new RemoteDriverFactory().getRemoteDriver();
+        }
+        else{
+            driver = new WebDriverFactory().getDriver();
+        }
+        //driver = new RemoteDriverFactory().getRemoteDriver();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
-        browserWindowPageObject = new BrowserWindowPageObject(driver);
+        browserWindowPageObject = new BrowserWindowsObject(driver);
         LOGGER.info("Driver has been initialized.");
     }
 
-
-    @AfterTest()
+    @AfterTest
     public void closeDriver() {
         LOGGER.info("Closing driver...");
         driver.quit();
@@ -65,16 +79,19 @@ public class BrowserWindowTest {
         WebDriverWait webDriverWait = browserWindowPageObject.getWebDriverWait();
         webDriverWait.until(ExpectedConditions.visibilityOf(browserWindowPageObject.getSampleHeading()));
         Assert.assertEquals(browserWindowPageObject.getSampleHeading().getText(), "This is a sample page");
-        takeScreenshot(driver);
+        TakeScreenshotService.takeScreenshot(driver);
         Assert.assertEquals(driver.getCurrentUrl(), EXPECTED_URL_NEW_TAB);
         LOGGER.info("Switching back to parent window");
         driver.switchTo().window(parentWindow);
         browserWindowPageObject.getHomePageImage().click();
-        assertTrue(driver.getCurrentUrl().equals("https://demoqa.com/"));
+        assertEquals(driver.getCurrentUrl(), "https://demoqa.com/");
         takeScreenshot(driver);
     }
-
 //    TODO - create test with second NEW WINDOW Button, please take screenshot at certain steps of the test
 //    TODO - please create your task on the board!!!!
 
 }
+
+
+
+
