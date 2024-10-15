@@ -33,22 +33,22 @@ public abstract class BasePage {
         return webDriverWait;
     }
 
-    public void switchParentWindow(){
-        Set<String> windowHandles = driver.getWindowHandles();
-        Iterator<String> iterator = windowHandles.iterator();
-        String parentWindow = iterator.next();
-        driver.switchTo().window(parentWindow);
-    }
-
-    public void switchChildWindow() {
-        Set<String> windowHandles = driver.getWindowHandles();
-        if((windowHandles.size() > 1)) {
+        public void switchParentWindow(){
+            Set<String> windowHandles = driver.getWindowHandles();
             Iterator<String> iterator = windowHandles.iterator();
             String parentWindow = iterator.next();
-            String childWindow = iterator.next();
-            driver.switchTo().window(childWindow);
-        }else{
-            LOGGER.error("There is no child window opened.");
+            driver.switchTo().window(parentWindow);
+        }
+    
+        public void switchChildWindow() {
+            Set<String> windowHandles = driver.getWindowHandles();
+            if((windowHandles.size() > 1)) {
+                Iterator<String> iterator = windowHandles.iterator();
+                String parentWindow = iterator.next();
+                String childWindow = iterator.next();
+                driver.switchTo().window(childWindow);
+            }else{
+                LOGGER.error("There is no child window opened.");
+            }
         }
     }
-}
